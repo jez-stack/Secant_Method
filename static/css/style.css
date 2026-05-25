@@ -437,3 +437,42 @@ input::placeholder { color: #a0aec0; }
 .export-toast.show {
     opacity: 1;
 }
+
+/* ========== MOBILE FALLBACK FOR FUNCTION INPUT ========== */
+@media (max-width: 768px) {
+    .mathquill-input-wrapper {
+        display: none;
+    }
+    .mobile-fallback-wrapper {
+        display: block;
+        width: 100%;
+        margin-top: 8px;
+    }
+}
+
+@media (min-width: 769px) {
+    .mobile-fallback-wrapper {
+        display: none;
+    }
+}
+
+.mobile-fallback-wrapper {
+    width: 100%;
+}
+
+.mobile-fallback-input {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 16px;
+    border: 1.5px solid #dde1e7;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    background: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.mobile-fallback-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
