@@ -9,6 +9,11 @@ $(document).ready(function() {
                     try {
                         var latex = mathField.latex();
                         document.getElementById('mathquill-input').setAttribute('data-latex', latex);
+                        // Sync to mobile input if it exists
+                        var mobileInput = document.getElementById('mobile-function-input');
+                        if (mobileInput && window.innerWidth <= 768) {
+                            mobileInput.value = latex;
+                        }
                     } catch (e) {
                         console.warn('MathQuill edit handler error:', e);
                     }
@@ -16,6 +21,21 @@ $(document).ready(function() {
             }
         });
         window.mathField = mathField;
+
+        // ========== MOBILE FALLBACK SYNC ==========
+        var mobileInput = document.getElementById('mobile-function-input');
+        if (mobileInput) {
+            // When user types in mobile input, update MathQuill
+            mobileInput.addEventListener('input', function() {
+                var rawExpr = mobileInput.value;
+                var latex = rawExpr.replace(/\^/g, '^');
+                try {
+                    window.mathField.latex(latex);
+                } catch(e) {
+                    // Invalid LaTeX, ignore
+                }
+            });
+        }
     } catch (e) {
         console.error('MathQuill initialization failed:', e);
         showGlobalError('Math input failed to load. Please refresh the page.');
@@ -523,7 +543,15 @@ document.getElementById('calc-form').addEventListener('submit', async function(e
             return;
         }
         
-        var latex = window.mathField.latex();
+        // ========== MOBILE FALLBACK: use text input on small screens ==========
+        var isMobile = window.innerWidth <= 768;
+        var latex;
+        if (isMobile && document.getElementById('mobile-function-input')) {
+            latex = document.getElementById('mobile-function-input').value;
+        } else {
+            latex = window.mathField.latex();
+        }
+        
         if (!latex || latex.trim() === '') {
             resDiv.innerHTML = '<div class="error-msg">❌ Please enter a function f(x).</div>';
             return;
@@ -591,7 +619,7 @@ document.getElementById('calc-form').addEventListener('submit', async function(e
         html += '</div>';
         
         // Table - skip n=0 (initial setup), start at n=1 (first iteration)
-        html += '<div class="result-table-wrapper"><table><tr><th>n</th><th>x<sub>n-1</sub></th><th>f(x<sub>n-1</sub>)</th><th>x<sub>n</sub></th><th>f(x<sub>n</sub>)</th><th>e</th><th>Steps</th></tr>';
+        html += '<div class="result-table-wrapper">能able\n<thead>\n<th>n</th><th>x<sub>n-1</sub></th><th>f(x<sub>n-1</sub>)</th><th>x<sub>n</sub></th><th>f(x<sub>n</sub>)</th><th>e</th><th>Steps</th>\n</thead>\n<tbody>';
         
         result.iterations.forEach(function(it, i) {
             if (it.n === 0) return; // skip initial setup row
@@ -621,7 +649,7 @@ document.getElementById('calc-form').addEventListener('submit', async function(e
             html += '</tr>';
         });
         
-        html += '</table></div>';
+        html += '</tbody></table></div>';
         html += '<p class="info-text">✨ Converged in <strong>' + (result.iterations.length - 1) + '</strong> iterations</p>';
         html += '</div>';
         
