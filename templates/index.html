@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Home - Numerical Methods{% endblock %}
+
+{% block content %}
+<section>
+  <h2>Welcome to the Numerical Methods Calculator</h2>
+  <p>This web application implements the <strong>Secant Method</strong> for finding roots of non‑linear equations.</p>
+  <p>Click the button below to use the Secant Method calculator.</p>
+  <a href="/secant" class="btn-calculate" style="display:inline-block; text-decoration:none;">➡️ Go to Secant Method</a>
+</section>
+
+<section style="margin-top: 40px;">
+  <h2>📚 What is the Secant Method?</h2>
+  <p>The Secant Method is a root‑finding algorithm that uses two initial approximations and does not require the derivative of the function. It converges superlinearly with order ≈1.618.</p>
+  <div class="math-block"><strong>Iteration Formula:</strong><br>$$ x_{n+1} = x_n - f(x_n)\frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} $$</div>
+  <p>Explore the calculator for step‑by‑step solutions and interactive graphs.</p>
+</section>
+{% endblock %}
