@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Secant Method Calculator{% endblock %}
+
+{% block content %}
+<section id="discussion">
+  <h2>📚 Mathematical Discussion</h2>
+  <p>The <strong>Secant Method</strong> is a root-finding algorithm that uses a succession of roots of secant lines to better approximate a root of a function $f(x)$. It requires <strong>two initial approximations</strong> $x_0$ and $x_1$, and does <strong>not</strong> need the derivative $f'(x)$ (unlike Newton's method).</p>
+  <div class="math-block"><strong>Iteration Formula:</strong><br>$$ x_{n+1} = x_n - f(x_n)\frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} $$</div>
+  <p><strong>Key Properties:</strong></p>
+  <ul>
+    <li><strong>Convergence:</strong> Superlinear with order approximately $\phi \approx 1.618$ (the golden ratio)</li>
+    <li><strong>Requirements:</strong> Two initial points, function must be continuous</li>
+    <li><strong>Advantage:</strong> No derivative needed (unlike Newton's method)</li>
+    <li><strong>Failure:</strong> Fails if $f(x_n) \approx f(x_{n-1})$ (division by near-zero)</li>
+  </ul>
+</section>
+
+<div id="examples">
+  <!-- ========== EXAMPLE 1 ========== -->
+  <section class="example-section">
+    <span class="example-badge">Example 1</span>
+    <h2 style="margin-top:10px;border-bottom:none;padding-bottom:0;">$f(x) = x^2 - 4$</h2>
+    <p><strong>Problem:</strong> Find $\sqrt{4} = 2$ using $x_0 = 0$, $x_1 = 3$, tolerance $= 10^{-6}$.</p>
+    <div class="math-block"><strong>Formula:</strong> $x_{n+1} = x_n - f(x_n)\dfrac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}$</div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>$n$</th><th>$x_{n-1}$</th><th>$f(x_{n-1})$</th><th>$x_n$</th><th>$f(x_n)$</th><th>$e = |x_n - x_{n-1}|$</th><th>$x_{n+1}$ (Solution)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>0.000000</td><td>$-4.000000$</td><td>3.000000</td><td>$5.000000$</td><td>3.000000</td><td>$3 - 5 \cdot \frac{3-0}{5-(-4)} = 1.333333$</td></tr>
+          <tr><td>2</td><td>3.000000</td><td>$5.000000$</td><td>1.333333</td><td>$-2.222222$</td><td>1.666667</td><td>$1.333333 - (-2.222222) \cdot \frac{1.333333-3}{-2.222222-5} = 1.846154$</td></tr>
+          <tr><td>3</td><td>1.333333</td><td>$-2.222222$</td><td>1.846154</td><td>$-0.591716$</td><td>0.512821</td><td>$1.846154 - (-0.591716) \cdot \frac{1.846154-1.333333}{-0.591716-(-2.222222)} = 2.032258$</td></tr>
+          <tr><td>4</td><td>1.846154</td><td>$-0.591716$</td><td>2.032258</td><td>$0.130073$</td><td>0.186104</td><td>$2.032258 - 0.130073 \cdot \frac{2.032258-1.846154}{0.130073-(-0.591716)} = 1.998720$</td></tr>
+          <tr><td>5</td><td>2.032258</td><td>$0.130073$</td><td>1.998720</td><td>$-0.005117$</td><td>0.033538</td><td>$1.998720 - (-0.005117) \cdot \frac{1.998720-2.032258}{-0.005117-0.130073} = 1.999990$</td></tr>
+          <tr><td>6</td><td>1.998720</td><td>$-0.005117$</td><td>1.999990</td><td>$-0.000041$</td><td>0.001270</td><td>$1.999990 - (-0.000041) \cdot \frac{1.999990-1.998720}{-0.000041-(-0.005117)} = 2.000000$</td></tr>
+          <tr><td>7</td><td>1.999990</td><td>$-0.000041$</td><td>2.000000</td><td>$0.000000$</td><td>0.000010</td><td>$2.000000 - 0.000000 \cdot \frac{2.000000-1.999990}{0.000000-(-0.000041)} = 2.000000$</td></tr>
+          <tr class="final-row"><td colspan="7"><strong>Root: $x \approx 2.000000$</strong><br>$e = 0.000000 < 10^{-6}$ ✓ Converged!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== EXAMPLE 2 ========== -->
+  <section class="example-section">
+    <span class="example-badge">Example 2</span>
+    <h2 style="margin-top:10px;border-bottom:none;padding-bottom:0;">$f(x) = \cos (x) - x$</h2>
+    <p><strong>Problem:</strong> Solve $\cos (x) = x$ (Dottie Number) using $x_0 = 0$, $x_1 = 1$.</p>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>$n$</th><th>$x_{n-1}$</th><th>$f(x_{n-1})$</th><th>$x_n$</th><th>$f(x_n)$</th><th>$e = |x_n - x_{n-1}|$</th><th>$x_{n+1}$ (Solution)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>0.000000</td><td>$1.000000$</td><td>1.000000</td><td>$-0.459698$</td><td>1.000000</td><td>$1 - (-0.459698) \cdot \frac{1-0}{-0.459698-1} = 0.685073$</td></tr>
+          <tr><td>2</td><td>1.000000</td><td>$-0.459698$</td><td>0.685073</td><td>$0.089301$</td><td>0.314927</td><td>$0.685073 - 0.089301 \cdot \frac{0.685073-1}{0.089301-(-0.459698)} = 0.736299$</td></tr>
+          <tr><td>3</td><td>0.685073</td><td>$0.089301$</td><td>0.736299</td><td>$-0.004660$</td><td>0.051226</td><td>$0.736299 - (-0.004660) \cdot \frac{0.736299-0.685073}{-0.004660-0.089301} = 0.739078$</td></tr>
+          <tr><td>4</td><td>0.736299</td><td>$-0.004660$</td><td>0.739078</td><td>$-0.000012$</td><td>0.002779</td><td>$0.739078 - (-0.000012) \cdot \frac{0.739078-0.736299}{-0.000012-(-0.004660)} = 0.739085$</td></tr>
+          <tr><td>5</td><td>0.739078</td><td>$-0.000012$</td><td>0.739085</td><td>$0.000000$</td><td>0.000007</td><td>$0.739085 - 0.000000 \cdot \frac{0.739085-0.739078}{0.000000-(-0.000012)} = 0.739085$</td></tr>
+          <tr class="final-row"><td colspan="7"><strong>Root: $x \approx 0.739085$</strong> (Dottie Number)<br>$e = 0.000000 < 10^{-6}$ ✓ Converged!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- ========== INTERACTIVE CALCULATOR ========== -->
+<section class="calculator-section" id="calculator">
+  <h2>🧮 Interactive Calculator</h2>
+  <form id="calc-form">
+    <div class="form-row">
+      <label>📐 f(x) =</label>
+      <div class="mathquill-input-wrapper">
+        <span id="mathquill-input" class="mathquill-editable">x^2-4</span>
+      </div>
+    </div>
+    <span class="help-text">Type formula visually. Use ^ for powers. Functions: sin, cos, tan, exp, log, sqrt, abs</span>
+
+    <div class="form-row">
+      <label>🎯 Initial x₀:</label>
+      <input type="number" id="x0" value="0" step="any" required>
+      <label>🎯 Initial x₁:</label>
+      <input type="number" id="x1" value="3" step="any" required>
+    </div>
+
+    <div class="form-row">
+      <label>📏 Tolerance:</label>
+      <input type="text" id="tol" value="1e-6">
+      <label>🔄 Max Iterations:</label>
+      <input type="number" id="max_iter" value="50" min="1" max="200">
+    </div>
+
+    <div class="form-row">
+      <label>🔢 Decimal Places:</label>
+      <div class="decimal-control">
+        <button type="button" class="decimal-btn" id="decimalMinus">−</button>
+        <span class="decimal-value" id="decimalValue">6</span>
+        <button type="button" class="decimal-btn" id="decimalPlus">+</button>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-calculate">🔍 Calculate Root</button>
+  </form>
+  <div id="result"></div>
+</section>
+{% endblock %}
