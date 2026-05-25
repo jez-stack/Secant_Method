@@ -619,7 +619,7 @@ document.getElementById('calc-form').addEventListener('submit', async function(e
         html += '</div>';
         
         // Table - skip n=0 (initial setup), start at n=1 (first iteration)
-        html += '<div class="result-table-wrapper">能able\n<thead>\n<th>n</th><th>x<sub>n-1</sub></th><th>f(x<sub>n-1</sub>)</th><th>x<sub>n</sub></th><th>f(x<sub>n</sub>)</th><th>e</th><th>Steps</th>\n</thead>\n<tbody>';
+        html += '<div class="result-table-wrapper"><table>\n<thead>\n<th>n</th><th>x<sub>n-1</sub></th><th>f(x<sub>n-1</sub>)</th><th>x<sub>n</sub></th><th>f(x<sub>n</sub>)</th><th>e</th><th>Steps</th>\n</thead>\n<tbody>';
         
         result.iterations.forEach(function(it, i) {
             if (it.n === 0) return; // skip initial setup row
